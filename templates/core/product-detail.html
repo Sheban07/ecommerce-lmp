@@ -1,11 +1,10 @@
-
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User sign-up</title>
+    <title>Marketplace Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .navbar {
@@ -15,7 +14,34 @@
             font-size: 14px;
             margin-right: 15px;
         }
+        .hero-banner {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .card img {
 
+            z-index: 1;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-action{
+            position: absolute;
+            z-index: 2;
+        }
+
+        .product-badges{
+            font-size: 14px;
+
+            display: flex;
+            justify-content: center;
+            width: 45px;
+            background-color: red;
+            color: white;
+            border-top-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
         footer {
             background: #343a40;
             color: white;
@@ -34,122 +60,6 @@
                 height: auto;
             }
         }
-
-        /*form*/
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        body {
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        height: 100vh;
-        }
-        .form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-
-
-        .form-container {
-          margin-top: 20px;
-          margin-left: 20px;
-          margin-right: 20px;
-          background: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          width: 100%;
-          max-width: 400px;
-        }
-
-        form {
-          display: flex;
-          flex-direction: column;
-        }
-
-        h2 {
-          margin-bottom: 20px;
-          text-align: center;
-          color: #333;
-        }
-
-        .form-group {
-          margin-bottom: 15px;
-        }
-
-        label {
-          display: block;
-          font-weight: bold;
-          margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          font-size: 14px;
-        }
-
-        .radio-group {
-          display: flex;
-          gap: 10px;
-          align-items: center;
-        }
-
-        input[type="radio"] {
-          margin-right: 5px;
-        }
-
-        .button-group {
-          display: flex;
-          justify-content: space-between;
-        }
-
-        .btn {
-          padding: 10px;
-          font-size: 14px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        .register-btn {
-          background: green;
-          color: white;
-        }
-
-        .login-btn {
-          background: blueviolet;
-          color: white;
-        }
-
-        .register-btn:hover {
-          background: #0056b3;
-        }
-
-        .login-btn:hover {
-          background: #5a6268;
-        }
-
-        @media screen and (max-width: 600px) {
-          .form-container {
-            padding: 15px;
-          }
-
-          .button-group {
-            flex-direction: column;
-            gap: 10px;
-          }
-        }
-
     </style>
 </head>
 <body>
@@ -205,48 +115,59 @@
         </div>
     </div>
 
-
-<!--form-->
-    <div class="form">
-        <div class="form-container">
-            <form id="login-form" method="POST">
-                <h2>Login</h2>
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="email" required name="email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <input type="password" required name="password" placeholder="Enter your password">
+    <!-- Main Content -->
+<div class="container my-5">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-md-6 text-center">
+                    <img src="https://via.placeholder.com/500" alt="Product Image" class="img-fluid rounded">
                 </div>
 
-
-
-                <div class="button-group">
-                    <div class="btn">
-                        <button type="submit" class="btn login-btn">Login</button>
-                    </div>
-                    <div class="btn">
-                        <p>Don't have an account</p>
-                        <button type="button" class="btn register-btn" onclick="window.location.href='userauths/sign-up.html'">Register</button>
+                <!-- Product Details -->
+                <div class="col-md-6">
+                    <h2 class="product-title">Awesome Product Name</h2>
+                    <p class="text-muted shop-name">Shop: <a href="#">Example Shop</a></p>
+                    <p class="price"><span>Ksh</span>49.99</p>
+                    <p class="description">This is a high-quality product that you will absolutely love! It features
+                        amazing benefits and comes with a guarantee of satisfaction.</p>
+                    <div class="rating mb-3">
+                        <span>&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <small class="text-muted">(120 reviews)</small>
                     </div>
 
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <div class="card-body">
+
+                            <button class="btn btn-primary btn-sm" onclick="addToCart()">Add to Cart</button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="addToWishlist()">Add to Wishlist</button>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Additional Details -->
+                    <ul class="list-unstyled">
+                        <li><strong>Category:</strong> Electronics</li>
+                        <li><strong>Stock:</strong> In Stock</li>
+                        <li><strong>SKU:</strong> 123456</li>
+                        <li><strong>Shipping:</strong> Free Shipping Worldwide</li>
+                    </ul>
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
+</div>
 
 
-    <!--end form-->
+    <!--End Main Content-->
 
-
-    <br><br><br><br><br><br><br><br><br><br>
-<footer>
+    <!-- Footer -->
+    <br><br><br>
+    <footer>
         <p>© 2024 Local Marketplace Platform | Powered by Sheban</p>
-</footer>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
 
     <!-- Functionality -->
     <script>
@@ -263,10 +184,8 @@
             document.getElementById('wishlist-icon').innerText = `❤️ (${wishlistCount})`;
         }
 
-
+        // Sample Products
 
     </script>
 </body>
 </html>
-
-
