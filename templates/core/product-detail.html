@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace Dashboard</title>
+    <title>{{ product.title }} - Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .navbar {
+
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .navbar .navbar-nav .nav-link {
             font-size: 14px;
             margin-right: 15px;
@@ -64,7 +66,7 @@
 </head>
 <body>
     <!-- First Navigation Row -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="container">
         <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand" href="#">FreshMart</a>
@@ -120,27 +122,25 @@
             <div class="row">
                 <!-- Product Image -->
                 <div class="col-md-6 text-center">
-                    <img src="https://via.placeholder.com/500" alt="Product Image" class="img-fluid rounded">
+                    <img src="{{ product.image.url }}" alt="Product Image" class="img-fluid rounded">
                 </div>
 
                 <!-- Product Details -->
                 <div class="col-md-6">
-                    <h2 class="product-title">Awesome Product Name</h2>
-                    <p class="text-muted shop-name">Shop: <a href="#">Example Shop</a></p>
-                    <p class="price"><span>Ksh</span>49.99</p>
-                    <p class="description">This is a high-quality product that you will absolutely love! It features
-                        amazing benefits and comes with a guarantee of satisfaction.</p>
+                    <h2 class="product-title">{{ product.title }}</h2>
+                    <p class="text-muted shop-name">Shop: <a href="#">{{ product.vendor }}</a></p>
+                    <p class="price">Ksh{{ product.price }} <del>Ksh{{ product.old_price }}</del> </p>
+                    <p class="description">{{ product.description }}</p>
                     <div class="rating mb-3">
                         <span>&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-                        <small class="text-muted">(120 reviews)</small>
+                        <small class="text-muted">(31 reviews)</small>
                     </div>
 
                     <!-- Buttons -->
                     <div class="d-flex gap-2">
                         <div class="card-body">
-
-                            <button class="btn btn-primary btn-sm" onclick="addToCart()">Add to Cart</button>
-                            <button class="btn btn-outline-danger btn-sm" onclick="addToWishlist()">Add to Wishlist</button>
+                            <button id="addToCartBtn" class="btn btn-primary btn-sm" onclick="addToCart()">Add to Cart</button>
+                            <button id="addToCartBtn" class="btn btn-outline-danger btn-sm" onclick="addToWishlist()">Add to Wishlist</button>
                         </div>
                     </div>
 
@@ -148,9 +148,9 @@
 
                     <!-- Additional Details -->
                     <ul class="list-unstyled">
-                        <li><strong>Category:</strong> Electronics</li>
-                        <li><strong>Stock:</strong> In Stock</li>
-                        <li><strong>SKU:</strong> 123456</li>
+                        <li><strong>Category:</strong>{{ product.category }}</li>
+                        <li><strong>Stock:</strong>{{ product.in_stock }}</li>
+                        <li><strong>SKU:</strong>{{ product.sku }}</li>
                         <li><strong>Shipping:</strong> Free Shipping Worldwide</li>
                     </ul>
                 </div>
@@ -161,7 +161,7 @@
     <!--End Main Content-->
 
     <!-- Footer -->
-    <br><br><br>
+    <br><br><br><br><br>
     <footer>
         <p>© 2024 Local Marketplace Platform | Powered by Sheban</p>
     </footer>

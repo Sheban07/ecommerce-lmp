@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
@@ -118,7 +119,7 @@ class Product(models.Model):
 
 class ProductImages(models.Model):
     images = models.ImageField(upload_to="product-images", default="product,jpg")
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, related_name="p_images", on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -216,3 +217,21 @@ class Subscribers(models.Model):
 
 
 
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="carts")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_total_price(self):
+        return sum(item.get_total_price() for item in self.items.all())
+
+    def get_total_items(self):
+        return sum(item.quantity for item in self.items.all())
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def get_total_price(self):
+        return self.product.price * self.quantity

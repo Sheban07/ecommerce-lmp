@@ -1,7 +1,9 @@
+from symtable import Class
+
 from django.contrib import admin
 
 
-from core.models import Product, Category, Vendor, CartOrder, CartOrderItems, Wishlist, ProductImages, ProductReview, Address, Subscribers
+from core.models import Product, Category, Vendor, CartOrder, CartOrderItems, Wishlist, ProductImages, ProductReview, Address, Subscribers, Cart, CartItem
 
 # Register your models here.
 
@@ -37,8 +39,15 @@ class AddressAdmin(admin.ModelAdmin):
 class SubscribersAdmin(admin.ModelAdmin):
     list_display = ['email', 'date']
 
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['user', 'created_at', 'get_total_items', 'get_total_price']
+
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ['cart', 'product', 'quantity', 'get_total_price']
 
 
+admin.site.register(Cart, CartAdmin)
+admin.site.register(CartItem, CartItemAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(CartOrder, CartOrderAdmin)

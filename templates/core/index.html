@@ -91,8 +91,14 @@
             <!-- Icons -->
             <div>
                 <span class="icon me-3" id="wishlist-icon">❤️ (0)</span>
-                <span class="icon me-3" id="cart-icon">🛒 (0)</span>
-                <span class="icon">👤</span>
+                <span class="icon me-3" id="cart-icon" onclick="window.location.href='{% url 'cart' %}'">🛒 (0)<span id="cart-count1">{{ cart.get_total_items }}</span></span>
+                <span class="icon">👤
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                    <a href="http://127.0.0.1:8000/user/sign-up/">Login/Register</a>
+                    {% endif %}
+                </span>
             </div>
         </div>
     </nav>
@@ -103,10 +109,10 @@
             <!-- Navigation Links -->
             <div>
                 <a href="#" class="nav-link d-inline-block">Home</a>
-                <a href="#" class="nav-link d-inline-block">About</a>
+                <!--<a href="#" class="nav-link d-inline-block">About</a>
                 <a href="#" class="nav-link d-inline-block">Shop</a>
                 <a href="#" class="nav-link d-inline-block">Vendors</a>
-                <a href="#" class="nav-link d-inline-block">Contact</a>
+                <a href="#" class="nav-link d-inline-block">Contact</a>-->
             </div>
             <!-- Customer Support -->
             <div>
@@ -141,12 +147,16 @@
                             <span class="hot">-{{ p.get_percentage | floatformat:0 }}%</span>
                         </div>
                     </div>
-                    <img src="{{ p.image.url }}" class="card-img-top" alt="Red Velvet Cake">
+                    <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.title }}" onclick="redirectToDetail({{ products.pid }})">
+
 
                     <div class="card-body">
                         <h5 class="card-title">{{ p.title }}</h5>
-                        <p class="card-text">Ksh{{ p.price }} <del>Ksh{{ p.old_price }}</del></p>
-                        <button class="btn btn-primary btn-sm" onclick="addToCart()">Add to Cart</button>
+                        <p class="card-text" id="current-product-price">Ksh{{ p.price }} <del>Ksh{{ p.old_price }}</del> </p>
+
+                        <input type="hidden" value="{{ p.id }}" class="product-id" name="" id="">
+                        <input type="hidden" value="{{ p.title }}" class="product-title">
+                        <button class="btn btn-primary btn-sm" type="submit" id="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
                         <button class="btn btn-outline-danger btn-sm" onclick="addToWishlist()">Add to Wishlist</button>
                     </div>
 
@@ -168,6 +178,7 @@
 
     <!-- Functionality -->
     <script>
+        //cart count
         let cartCount = 0;
         let wishlistCount = 0;
 
@@ -176,12 +187,57 @@
             document.getElementById('cart-icon').innerText = `🛒 (${cartCount})`;
         }
 
+
         function addToWishlist() {
             wishlistCount++;
             document.getElementById('wishlist-icon').innerText = `❤️ (${wishlistCount})`;
         }
+        //hey I am starting adding to cart
+
+        $("#add-to-cart-btn").on("click", function (){
+            let quantity = $({cartCount}).val()
+            let product_title = $(".product-title").val()
+            let product_id = $(".product-id").val()
+            let product_price = $("#current-product-price").text()
+
+            let this_val = $(this)
+
+
+            console.log("Quantity:", quantity)
+            console.log("Title:", product_title)
+            console.log("Price:", product_price)
+            console.log("ID:", product_id)
+            console.log("Current  Element:", this_val)
+        })
+
+
+        //hey is the end
+
 
         // Sample Products
+        function redirectToDetail(pid){
+            window.location.href = `/product/${pid}/`;
+        }
+        //update the cart
+
+       /*
+
+    let cartCount = 0;
+
+    function addToCart(pid) {
+        fetch(`/cart/add/${pid}/`)
+            .then(response => {
+                if (response) {
+                    cartCount++;
+                    document.getElementById('cart-count').innerText = `🛒 (${cartCount})`;
+                }
+            })
+            .catch(error => console.error('Error adding to cart:', error));
+    }
+
+
+        */
+
 
     </script>
 </body>
